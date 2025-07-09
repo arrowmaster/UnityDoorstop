@@ -8,7 +8,8 @@
 # 1. Via CLI: Run ./run.sh <path to game> [doorstop arguments] [game arguments]
 # 2. Via config: edit the options below and run ./run.sh without any arguments
 
-# 0 is false, 1 is true
+# Use POSIX-compatible way to get the directory of the executable
+a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BASEDIR=$(cd "$a" || exit; pwd -P)
 
 # LINUX: name of Unity executable
 # MACOS: name of the .app directory
@@ -17,6 +18,8 @@ executable_name=""
 # All of the below can be overriden with command line args
 
 # General Config Options
+
+# 0 is false, 1 is true
 
 # Enable Doorstop?
 enabled="1"
@@ -81,9 +84,6 @@ if [ -z "${executable_name}" ] || [ ! -x "${executable_name}" ]; then
     echo "Please set executable_name to a valid name in a text editor or as the first command line parameter"
     exit 1
 fi
-
-# Use POSIX-compatible way to get the directory of the executable
-a="/$0"; a=${a%/*}; a=${a#/}; a=${a:-.}; BASEDIR=$(cd "$a" || exit; pwd -P)
 
 arch=""
 executable_path=""
