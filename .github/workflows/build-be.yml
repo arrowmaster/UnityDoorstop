@@ -95,7 +95,7 @@ jobs:
 
   collect:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/dev'
     needs:
       - build-windows
       - build-linux
