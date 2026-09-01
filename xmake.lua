@@ -3,16 +3,14 @@ local info = build_info(info_lua)
 
 add_rules("mode.debug", "mode.release")
 
-option("include_logging")
-    set_showmenu(true)
-    set_description("Include verbose logging on run")
-    add_defines("VERBOSE")
-
-
 target("doorstop")
     set_kind("shared")
     set_optimize("smallest")
-    add_options("include_logging")
+    if is_mode("debug") then
+        set_symbols("debug")
+        set_optimize("none")
+        add_defines("VERBOSE")
+    end
     local load_events = {}
 
     if is_os("windows") then
@@ -36,10 +34,6 @@ target("doorstop")
             add_files("src/nix/plthook/plthook_osx.c")
         end
         add_links("dl")
-        if is_mode("debug") then
-            set_symbols("debug")
-            set_optimize("none")
-        end
     end
 
     if is_plat("windows") then
